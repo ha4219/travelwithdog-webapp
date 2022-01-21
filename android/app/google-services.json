@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1029563261196",
+    "project_id": "travelwithdog-3b5d1",
+    "storage_bucket": "travelwithdog-3b5d1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1029563261196:android:79dbe2423d0f0c6ad32929",
+        "android_client_info": {
+          "package_name": "com.travelwithdog"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1029563261196-kt99p9tue66lj2o4tupt3gcmgfda2f5e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.travelwithdog",
+            "certificate_hash": "3e6cbcc571a111d13d1cb0e17840e74aa802c503"
+          }
+        },
+        {
+          "client_id": "1029563261196-fnephqfv58o4pev3em45iuo2c7ck4oq2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA08bJ0FgNYBJM_IxiM0vnhb21njlHPkMI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1029563261196-fnephqfv58o4pev3em45iuo2c7ck4oq2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

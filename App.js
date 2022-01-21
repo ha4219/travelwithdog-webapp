@@ -23,6 +23,7 @@ import SplashScreen from 'react-native-splash-screen';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import PushNotification from 'react-native-push-notification';
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import BackgroundFetch from 'react-native-background-fetch';
 
 const INJECTED_CODE = `
@@ -109,7 +110,10 @@ const App = () => {
       },
       async taskId => {
         console.log('Received backgroundf-fetch event: ', taskId);
-
+        PushNotificationIOS.addNotificationRequest({
+          title: 'ttest',
+          id: 1,
+        });
         PushNotification.localNotification({
           title: 'test',
           message: 'testtest',
@@ -127,9 +131,26 @@ const App = () => {
       },
     );
     SplashScreen.hide();
+
+    const onRemoteNotification = notification => {
+      const isClicked = notification.getData().userInteraction === 1;
+
+      if (isClicked) {
+        // Navigate user to another screen
+      } else {
+        // Do something else with push notification
+      }
+    };
+
+    const type = 'notification';
+    PushNotificationIOS.addEventListener(type, onRemoteNotification);
+    return () => {
+      PushNotificationIOS.removeEventListener(type);
+    };
   }, []);
 
   const onBtn = () => {
+    console.log(1);
     PushNotification.localNotification({
       title: 'test',
       message: 'testtest',
@@ -155,7 +176,7 @@ const App = () => {
         onMessage={({nativeEvent}) => setCanGoBack(nativeEvent.canGoBack)}
         // userAgent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36"
       />
-      {/* <Button title="hi" onPress={onBtn} /> */}
+      <Button title="hi" onPress={onBtn} />
     </SafeAreaView>
   );
 };

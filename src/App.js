@@ -25,26 +25,7 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 import PushNotification from 'react-native-push-notification';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import BackgroundFetch from 'react-native-background-fetch';
-
-const INJECTED_CODE = `
-  (function() {
-    function wrap(fn) {
-      return function wrapper() {
-        var res = fn.apply(this, arguments);
-        window.ReactNativeWebView.postMessage('navigationStateChange');
-        return res;
-      }
-    }
-
-    history.pushState = wrap(history.pushState);
-    history.replaceState = wrap(history.replaceState);
-    window.addEventListener('popstate', function() {
-      window.ReactNativeWebView.postMessage('navigationStateChange');
-    });
-  })();
-
-  true;
-  `;
+import Router from './router';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -52,37 +33,10 @@ const App = () => {
   const [canGoBack, setCanGoBack] = useState(false);
   const webviewRef = useRef<WebView>(null);
   const [navState, setNavState] = useState();
-  // test page
-  const URL = 'https://dlwhd990.github.io/travelWithDog/';
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
-
-  useEffect(() => {
-    // back
-    const onPress = () => {
-      if (canGoBack) {
-        webviewRef.current.goBack();
-        return true;
-      } else {
-        Alert.alert('Hold on!', '앱을 종료하시겠습니까?', [
-          {
-            text: '취소',
-            onPress: () => null,
-          },
-          {text: '확인', onPress: () => BackHandler.exitApp()},
-        ]);
-        return true;
-      }
-    };
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      onPress,
-    );
-
-    return () => backHandler.remove();
-  }, [canGoBack]);
 
   useEffect(() => {
     // noti
@@ -149,43 +103,10 @@ const App = () => {
     };
   }, []);
 
-  useEffect(() => {
-    PushNotification.localNotification({
-      title: 'travelwithdog님의 여행이 곧 시작됩니다!',
-      message: '하이 제주 호텔 반려견 여행 2박3일 상품 예약 당일입니다.',
-      playSound: true,
-      soundName: 'default',
-      channelId: 'travelwithdog',
-    });
-  }, []);
-
-  const onBtn = () => {
-    PushNotification.localNotification({
-      title: 'test',
-      message: 'testtest',
-      playSound: true,
-      soundName: 'default',
-      channelId: 'travelwithdog',
-    });
-  };
-
   return (
     <SafeAreaView style={[backgroundStyle, styles.container]}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <WebView
-        ref={webviewRef}
-        style={styles.webContainer}
-        onLoadStart={() => webviewRef.current.injectJavaScript(INJECTED_CODE)}
-        onNavigationStateChange={props => setCanGoBack(props.canGoBack)}
-        // useWebKit={true}
-        source={{uri: URL}}
-        // javaScriptEnabled={true}
-        // sharedCookiesEnabled={true}
-        // thirdPartyCookiesEnabled={true}
-        onMessage={({nativeEvent}) => setCanGoBack(nativeEvent.canGoBack)}
-        // userAgent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36"
-      />
-      {/* <Button title="hi" onPress={onBtn} /> */}
+      <Router />
     </SafeAreaView>
   );
 };

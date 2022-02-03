@@ -8,12 +8,13 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
-    "ba": "./gradlew assembleRelease",
+    "ba": "gradlew assembleRelease",
     "ca": "open android/app/build/outputs/apk/release"
   },
   "dependencies": {
     "@react-native-community/push-notification-ios": "^1.10.1",
     "@react-native-firebase/app": "^14.2.3",
+    "iamport-react-native": "^2.0.0-rc.1",
     "react": "17.0.2",
     "react-native": "0.66.4",
     "react-native-background-fetch": "^4.0.4",

@@ -149,8 +149,17 @@ const App = () => {
     };
   }, []);
 
+  useEffect(() => {
+    PushNotification.localNotification({
+      title: 'travelwithdog님의 여행이 곧 시작됩니다!',
+      message: '하이 제주 호텔 반려견 여행 2박3일 상품 예약 당일입니다.',
+      playSound: true,
+      soundName: 'default',
+      channelId: 'travelwithdog',
+    });
+  }, []);
+
   const onBtn = () => {
-    console.log(1);
     PushNotification.localNotification({
       title: 'test',
       message: 'testtest',
@@ -176,7 +185,7 @@ const App = () => {
         onMessage={({nativeEvent}) => setCanGoBack(nativeEvent.canGoBack)}
         // userAgent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36"
       />
-      <Button title="hi" onPress={onBtn} />
+      {/* <Button title="hi" onPress={onBtn} /> */}
     </SafeAreaView>
   );
 };
